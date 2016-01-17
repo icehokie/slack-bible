@@ -7,8 +7,10 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "^1.12.3",
     "express": "^4.12.3",
+    "follow-redirects": "0.0.7",
     "lodash": "^3.8.0"
   },
   "engines": {
