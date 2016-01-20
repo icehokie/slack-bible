@@ -1,7 +1,7 @@
 {
   "Genesis": ["genesis", "gen", "ge", "gn"],
   "Exodus": ["exodus", "exo", "ex", "exod"],
-  "Leviticus": ["leviticus", "lev", "le", "lv"],
+  "Leviticus": ["leviticus", "lev", "lv"],
   "Numbers": ["numbers", "num", "nu", "nm", "nb"],
   "Deuteronomy": ["deuteronomy", "deut", "dt"],
   "Joshua": ["joshua", "josh", "jos", "jsh"],
@@ -85,5 +85,5 @@
   "2 John": ["2 john", "2 jn", "ii jn", "2jn", "ii jo", "2jo", "ii joh", "2joh", "ii jhn", "2 jhn", "2jhn", "ii john", "2john", "2nd john", "second john"],
   "3 John": ["3 john", "3 jn", "iii jn", "3jn", "iii jo", "3jo", "iii joh", "3joh", "iii jhn", "3 jhn", "3jhn", "iii john", "3john", "3rd john", "third john"],
   "Jude": ["jude", "jud"],
-  "Revelation": ["revelation", "rev", "re", "the revelation"]
+  "Revelation": ["revelation", "rev", "the revelation"]
 }

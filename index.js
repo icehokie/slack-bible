@@ -44,6 +44,7 @@ app.post('/', function(request, response) {
 
   if (results.length > 0) {
     var attachments = _.map(results, function (result) {
+		result = result.replace(' ', '+')
       var title = result.replace('+', ' ')
 	  title = title.replace('&version=', ' - ')
       var link = 'https://biblegateway.com/bible?passage=' + result
@@ -65,14 +66,6 @@ app.post('/', function(request, response) {
 		}) ;
 		
 		});
-	  
-    /**  return {
-        title: title,
-        title_link: link,
-        fallback: title + ' - ' + link,
-        color: 'good',
-		text: strText
-      }*/
     })
   } else {
     response.json({})
