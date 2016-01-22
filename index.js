@@ -6,6 +6,7 @@ var versions = require('./versions')
 var app = express()
 var http = require('follow-redirects').http
 var async = require('async')
+var cheerio = require('cheerio')
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('port', (process.env.PORT || 5000))
@@ -14,7 +15,6 @@ app.use(express.static(__dirname + '/public'))
 var booksWithPipes = _.chain(books).values().flatten().join('|').value()
 var versionsWithPipes = _.chain(versions).values().flatten().join('|').value()
 var regex = new RegExp('(' + booksWithPipes + ')\\.?\\s*(\\d{1,3})(?:\\s*[\\:\\s]\\s*(\\d{1,3})(?:\\s*[\\-\\s]\\s*(\\d{1,3}))?)?\\s*('+versionsWithPipes+')?','ig')
-var textParser = new RegExp('og:description\" content=\"(.*)\"/>','i')
 
 function reverseLookupBook (abbr) {
   return _.findKey(books, function (abbrs) {return _.includes(abbrs, abbr.toLowerCase())})
@@ -48,7 +48,6 @@ app.post('/', function(request, response) {
       var title = result.replace('+', ' ')
 	  title = title.replace('&version=', ' - ')
       var link = 'https://biblegateway.com/bible?passage=' + result
-	  var strText = ''
 	   var options = {
 			host: 'www.biblegateway.com',
 			path: '/passage/?search='+result
@@ -60,9 +59,16 @@ app.post('/', function(request, response) {
 			bodyChunks += chunk;
 			
 		}).on("end", function() {
-			var verse = textParser.exec(bodyChunks);
-			if (verse && verse[1]) strText = verse[1]
-			callback(false, {title:title, title_link: link, fallback: title + ' - ' + link, color: 'good', text: link+'\n*'+title+'*\n>'+strText})
+			$ = cheerio.load(bodyChunks);
+			var fullText = '';
+			var childs = $('span','div.passage-text').each(function(i, element){
+			if (isNaN($(this).text().charAt(0))){
+				fullText += '\n*'+$(this).text()+'*\n'
+			} else {
+				fullText += $(this).text()
+			}
+			});
+			callback(false, {title:title, title_link: link, fallback: title + ' - ' + link, color: 'good', text: link+'\n'+fullText})
 		}) ;
 		
 		});
