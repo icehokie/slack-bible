@@ -61,14 +61,15 @@ app.post('/', function(request, response) {
 		}).on("end", function() {
 			$ = cheerio.load(bodyChunks);
 			var fullText = '';
-			var childs = $('span','div.passage-text').each(function(i, element){
+			var childs = $('span.text','div.passage-text').each(function(i, element){
 			if (isNaN($(this).text().charAt(0))){
-				fullText += '\n*'+$(this).text()+'*\n'
+				fullText += '\n'
 			} else {
 				fullText += $(this).text()
 			}
 			});
-			callback(false, {title:title, title_link: link, fallback: title + ' - ' + link, color: 'good', text: link+'\n'+fullText})
+			fullText = fullText.split(/\[[a-z]+\]/).join("");
+		callback(false, {attachments : [{title:title, title_link: link, fallback: title + ' - ' + link, color: 'good', text:fullText}]})
 		}) ;
 		
 		});
